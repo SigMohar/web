@@ -42,8 +42,8 @@ BASE_URL="${BASE_URL:-https://ca.sigmohar.com/r}"
 # TLS-only roots (server/client TLS certificates).
 # Add the relevant cert IDs below, one per line.
 COMM_SET_ROOTS=(
-  # "C1-R"
-  # "C2-R"
+  "C1-R"
+  "C2-R"
 )
 
 # ---- Category 2 adds: Sign-Set Roots ---------------------------------
@@ -51,11 +51,11 @@ COMM_SET_ROOTS=(
 # Installed together with Comm-Set when category 2 or 3 is chosen.
 # Add the relevant cert IDs below, one per line.
 SIGN_SET_ROOTS=(
-  # "S1-R"
-  # "S2-R"
-  # "S3-R"
-  # "S4-R"
-  # "S5-R"
+  "S1-R"
+  "S2-R"
+  "S3-R"
+  "S4-R"
+  "S5-R"
 )
 
 # ---- Category 3 adds: PKI-Set Roots -----------------------------------
@@ -63,7 +63,7 @@ SIGN_SET_ROOTS=(
 # Installed only when category 3 (Full Set) is chosen.
 # Add the relevant cert IDs below, one per line.
 PKI_SET_ROOTS=(
-  # "P1-R"
+  "P1-R"
 )
 
 ### -------------------------- END CONFIG --------------------------- ###
