@@ -1,43 +1,620 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Under Development</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        .icon {
-            font-size: 50px;
-            color: #ff9800;
-        }
-        h1 {
-            color: #333;
-        }
-        p {
-            color: #666;
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sigmohar Root CA — Install the certificate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B1220;
+    --panel:#121B2E;
+    --panel-2:#0D1524;
+    --line:#26314E;
+    --paper:#E8EAF0;
+    --muted:#8D96AC;
+    --gold:#C9A227;
+    --teal:#59E3C9;
+    --radius:2px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 85% -10%, rgba(201,162,39,0.07), transparent 60%),
+      var(--ink);
+    color:var(--paper);
+    font-family:'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    line-height:1.5;
+  }
+
+  a{color:inherit;}
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    padding:22px clamp(20px,5vw,56px);
+    border-bottom:1px solid var(--line);
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    text-decoration:none;
+  }
+
+  .seal{
+    width:38px;
+    height:38px;
+    flex:none;
+    background:var(--panel);
+    border:1px solid var(--line);
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .seal::before{
+    content:"";
+    position:absolute;
+    inset:6px;
+    border:1px solid rgba(201,162,39,0.55);
+    transform:rotate(45deg);
+  }
+  .seal-mark{
+    position:relative;
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:600;
+    font-size:15px;
+    color:var(--gold);
+  }
+
+  .brand-name{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:600;
+    font-size:19px;
+    letter-spacing:0.01em;
+    display:flex;
+    flex-direction:column;
+    line-height:1.15;
+  }
+  .brand-sub{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:500;
+    font-size:10px;
+    letter-spacing:0.16em;
+    color:var(--muted);
+  }
+
+  .topnav{
+    display:flex;
+    align-items:center;
+    gap:clamp(16px,3vw,34px);
+    flex-wrap:wrap;
+  }
+  .topnav a{
+    text-decoration:none;
+    font-size:14px;
+    font-weight:500;
+    color:var(--paper);
+    padding-bottom:3px;
+    border-bottom:1px solid transparent;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .topnav a:hover{
+    border-bottom-color:var(--gold);
+    color:var(--gold);
+  }
+
+  /* ---------- Hero ---------- */
+  main{
+    max-width:920px;
+    margin:0 auto;
+    padding:0 clamp(20px,5vw,56px);
+  }
+
+  .hero{
+    padding:clamp(48px,8vw,84px) 0 clamp(28px,4vw,40px);
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin:0 0 14px;
+  }
+  h1{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:600;
+    font-size:clamp(32px,5vw,48px);
+    line-height:1.1;
+    margin:0 0 18px;
+    max-width:14ch;
+  }
+  .lede{
+    font-size:16px;
+    color:var(--muted);
+    max-width:56ch;
+    margin:0 0 28px;
+  }
+
+  .fingerprint{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    padding:12px 16px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+  }
+  .fingerprint .fp-label{
+    color:var(--muted);
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    font-size:10px;
+  }
+  .fingerprint .fp-value{
+    color:var(--teal);
+    word-break:break-all;
+  }
+
+  /* ---------- Tabs ---------- */
+  .install{
+    padding:clamp(24px,5vw,40px) 0 clamp(60px,8vw,96px);
+  }
+
+  .tabs{
+    display:flex;
+    gap:2px;
+    border-bottom:1px solid var(--line);
+  }
+  .tab{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    background:none;
+    border:none;
+    color:var(--muted);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    font-weight:500;
+    letter-spacing:0.03em;
+    padding:12px 20px;
+    cursor:pointer;
+    position:relative;
+    top:1px;
+    border-bottom:2px solid transparent;
+    transition:color .15s ease, border-color .15s ease;
+  }
+  .tab:hover{ color:var(--paper); }
+  .tab[aria-selected="true"]{
+    color:var(--paper);
+    border-bottom-color:var(--gold);
+  }
+  .tab[aria-selected="true"] .tab-icon{ color:var(--gold); }
+  .tab:focus-visible{ outline:2px solid var(--teal); outline-offset:2px; }
+
+  .tab-icon{ width:14px; height:14px; flex:none; color:var(--muted); }
+
+  /* ---------- Canvas / terminal panel ---------- */
+  .panels{ padding-top:24px; }
+  .panel{ display:none; }
+  .panel.active{ display:block; }
+
+  .canvas{
+    background:var(--panel);
+    border:1px solid var(--line);
+  }
+
+  .canvas-chrome{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:11px 16px;
+    border-bottom:1px solid var(--line);
+    background:var(--panel-2);
+  }
+  .dot{ width:8px; height:8px; border-radius:50%; background:var(--line); }
+  .dot.red{ background:#8a4a4a; }
+  .dot.yellow{ background:#8a7a4a; }
+  .dot.green{ background:#4a8a63; }
+  .chrome-title{
+    margin-left:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--muted);
+  }
+
+  .steps{
+    list-style:none;
+    margin:0;
+    padding:6px 0;
+  }
+  .steps li{
+    display:flex;
+    gap:18px;
+    padding:18px 22px;
+    border-bottom:1px solid var(--line);
+  }
+  .steps li:last-child{ border-bottom:none; }
+
+  .step-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--gold);
+    padding-top:3px;
+    flex:none;
+    width:20px;
+  }
+  .step-body{ flex:1; min-width:0; }
+  .step-title{
+    margin:0 0 10px;
+    font-size:14px;
+    color:var(--paper);
+  }
+  .step-note{
+    margin:8px 0 0;
+    font-size:12.5px;
+    color:var(--muted);
+  }
+
+  .cmd{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    padding:10px 12px;
+    margin-top:8px;
+  }
+  .cmd:first-of-type{ margin-top:0; }
+  .prompt{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--teal);
+    flex:none;
+  }
+  .cmd code{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--paper);
+    flex:1;
+    overflow-x:auto;
+    white-space:pre;
+  }
+  .copy{
+    flex:none;
+    background:none;
+    border:1px solid var(--line);
+    color:var(--muted);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.04em;
+    padding:5px 10px;
+    cursor:pointer;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .copy:hover{ border-color:var(--gold); color:var(--gold); }
+  .copy:focus-visible{ outline:2px solid var(--teal); outline-offset:2px; }
+  .copy.copied{ border-color:var(--teal); color:var(--teal); }
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:22px clamp(20px,5vw,56px) 34px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:10px;
+    font-size:12px;
+    color:var(--muted);
+  }
+  footer a{ color:var(--muted); text-decoration:none; }
+  footer a:hover{ color:var(--gold); }
+
+  @media (max-width:560px){
+    .topbar{ flex-direction:column; align-items:flex-start; gap:16px; }
+    .tabs{ overflow-x:auto; }
+    .steps li{ padding:16px; gap:12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ transition:none !important; }
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="icon">🚧</div>
-        <h1>Website Under Development</h1>
-        <p>We are working hard to bring you something amazing. Stay tuned!</p>
+
+<header class="topbar" id="top">
+  <a class="brand" href="#top">
+    <span class="seal" aria-hidden="true"><span class="seal-mark">S</span></span>
+    <span class="brand-name">Sigmohar<span class="brand-sub">ROOT CERTIFICATE AUTHORITY</span></span>
+  </a>
+  <nav class="topnav" aria-label="Primary">
+    <a href="#install">Get Certificate</a>
+    <a href="roots.html">Roots</a>
+    <a href="policy.html">Policy</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <p class="eyebrow">Certificate installation</p>
+    <h1>Trust the SigMohar</h1>
+    <p class="lede">.</p>
+    <p class="lede">Add the root certificate to your system's trust store so certificates issued by Sigmohar are recognized automatically, with no browser warnings. Pick your OS below — it's three commands.</p>
+    <!--<div class="fingerprint">
+      <span class="fp-label">SHA-256 fingerprint</span>
+      <span class="fp-value">8F:2A:0C:19:6D:77:B2:44:9E:0B:5F:AC:31:D8:47:E2:59:6A:0F:B3:8C:D4:71:22:AA:60:0F:19:3B:5E:9C:07</span>
+    </div>-->
+  </section>
+
+  <section id="install" class="install">
+    <div class="tabs" role="tablist" aria-label="Operating system">
+      <button role="tab" id="tab-linux" aria-controls="panel-linux" aria-selected="true" class="tab" data-os="linux">
+        <svg class="tab-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 12.5 8 3l4 9.5" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M2.5 13h11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Linux
+      </button>
+      <button role="tab" id="tab-macos" aria-controls="panel-macos" aria-selected="false" class="tab" data-os="macos" tabindex="-1">
+        <svg class="tab-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2.5" y="3" width="11" height="8" rx="0.5" stroke="currentColor" stroke-width="1.2"/><path d="M6 13.5h4M8 11v2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        macOS
+      </button>
+      <button role="tab" id="tab-windows" aria-controls="panel-windows" aria-selected="false" class="tab" data-os="windows" tabindex="-1">
+        <svg class="tab-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2.3" y="2.3" width="5" height="5" fill="currentColor"/><rect x="8.7" y="2.3" width="5" height="5" fill="currentColor"/><rect x="2.3" y="8.7" width="5" height="5" fill="currentColor"/><rect x="8.7" y="8.7" width="5" height="5" fill="currentColor"/></svg>
+        Windows
+      </button>
     </div>
+
+    <div class="panels">
+
+      <!-- LINUX -->
+      <article role="tabpanel" id="panel-linux" aria-labelledby="tab-linux" class="panel active">
+        <div class="canvas">
+          <div class="canvas-chrome">
+            <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            <span class="chrome-title">bash — SigMohar-Roots</span>
+          </div>
+          <ol class="steps">
+            <li>
+              <div class="step-num">01</div>
+              <div class="step-body">
+                <p class="step-title">Download SigMohar Roots</p>
+                <div class="cmd">
+                  <span class="prompt">$</span>
+                  <code>curl -sSL https://sigmohar.com/static/install_roots_on_linux.sh | bash</code>
+                  <button class="copy">Copy</button>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="step-num">02</div>
+              <div class="step-body">
+                <p class="step-title">Add it to the system trust store</p>
+                <div class="cmd">
+                  <span class="prompt">$</span>
+                  <code>sudo cp sigmohar-root.crt /usr/local/share/ca-certificates/sigmohar-root.crt</code>
+                  <button class="copy">Copy</button>
+                </div>
+                <div class="cmd">
+                  <span class="prompt">$</span>
+                  <code>sudo update-ca-certificates</code>
+                  <button class="copy">Copy</button>
+                </div>
+                <p class="step-note">On RHEL/Fedora, copy to <code style="font-family:inherit;background:none;border:none;padding:0;">/etc/pki/ca-trust/source/anchors/</code> and run <code style="font-family:inherit;background:none;border:none;padding:0;">update-ca-trust</code> instead.</p>
+              </div>
+            </li>
+            <li>
+              <div class="step-num">03</div>
+              <div class="step-body">
+                <p class="step-title">Verify it was installed</p>
+                <div class="cmd">
+                  <span class="prompt">$</span>
+                  <code>openssl x509 -in /usr/local/share/ca-certificates/sigmohar-root.crt -noout -subject -fingerprint -sha256</code>
+                  <button class="copy">Copy</button>
+                </div>
+                <p class="step-note">Confirm the printed fingerprint matches the one above before trusting it.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- MACOS -->
+      <article role="tabpanel" id="panel-macos" aria-labelledby="tab-macos" class="panel" hidden>
+        <div class="canvas">
+          <div class="canvas-chrome">
+            <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            <span class="chrome-title">zsh — SigMohar-Roots</span>
+          </div>
+          <ol class="steps">
+            <li>
+              <div class="step-num">01</div>
+              <div class="step-body">
+                <p class="step-title">Download SigMohar Roots</p>
+                <div class="cmd">
+                  <span class="prompt">$</span>
+                  <code>curl -O https://ca.sigmohar.example/r/sigmohar-root.crt</code>
+                  <button class="copy">Copy</button>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="step-num">02</div>
+              <div class="step-body">
+                <p class="step-title">Add it to the System keychain, trusted</p>
+                <div class="cmd">
+                  <span class="prompt">$</span>
+                  <code>sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain sigmohar-root.crt</code>
+                  <button class="copy">Copy</button>
+                </div>
+                <p class="step-note">You'll be prompted for your admin password — this writes to the System keychain, not just your login keychain.</p>
+              </div>
+            </li>
+            <li>
+              <div class="step-num">03</div>
+              <div class="step-body">
+                <p class="step-title">Verify it was installed</p>
+                <div class="cmd">
+                  <span class="prompt">$</span>
+                  <code>security find-certificate -c "Sigmohar Root CA" -p /Library/Keychains/System.keychain</code>
+                  <button class="copy">Copy</button>
+                </div>
+                <p class="step-note">Or open Keychain Access → System → Certificates and check it shows "always trust."</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- WINDOWS -->
+      <article role="tabpanel" id="panel-windows" aria-labelledby="tab-windows" class="panel" hidden>
+        <div class="canvas">
+          <div class="canvas-chrome">
+            <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            <span class="chrome-title">PowerShell — SigMohar-Roots</span>
+          </div>
+          <ol class="steps">
+            <li>
+              <div class="step-num">01</div>
+              <div class="step-body">
+                <p class="step-title">Open PowerShell as Administrator, then download SigMohar Roots</p>
+                <div class="cmd">
+                  <span class="prompt">PS&gt;</span>
+                  <code>Invoke-WebRequest -Uri "https://ca.sigmohar.example/r/sigmohar-root.crt" -OutFile "sigmohar-root.crt"</code>
+                  <button class="copy">Copy</button>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="step-num">02</div>
+              <div class="step-body">
+                <p class="step-title">Import it into the Trusted Root store</p>
+                <div class="cmd">
+                  <span class="prompt">PS&gt;</span>
+                  <code>Import-Certificate -FilePath ".\sigmohar-root.crt" -CertStoreLocation Cert:\LocalMachine\Root</code>
+                  <button class="copy">Copy</button>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="step-num">03</div>
+              <div class="step-body">
+                <p class="step-title">Verify it was installed</p>
+                <div class="cmd">
+                  <span class="prompt">PS&gt;</span>
+                  <code>Get-ChildItem -Path Cert:\LocalMachine\Root | Where-Object { $_.Subject -like "*Sigmohar*" }</code>
+                  <button class="copy">Copy</button>
+                </div>
+                <p class="step-note">Or via Certificate Manager: run <code style="font-family:inherit;background:none;border:none;padding:0;">certlm.msc</code> and check Trusted Root Certification Authorities.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>© SigMohar</span>
+  <span>Only install root certificates from sources you trust and can verify.</span>
+</footer>
+
+<script>
+  (function(){
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+    var panels = {
+      linux: document.getElementById('panel-linux'),
+      macos: document.getElementById('panel-macos'),
+      windows: document.getElementById('panel-windows')
+    };
+
+    function activate(tab, moveFocus){
+      tabs.forEach(function(t){
+        var isActive = t === tab;
+        t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        t.tabIndex = isActive ? 0 : -1;
+        var panel = panels[t.getAttribute('data-os')];
+        if(isActive){
+          panel.hidden = false;
+          panel.classList.add('active');
+        } else {
+          panel.hidden = true;
+          panel.classList.remove('active');
+        }
+      });
+      if(moveFocus) tab.focus();
+    }
+
+    tabs.forEach(function(tab, i){
+      tab.addEventListener('click', function(){ activate(tab, false); });
+      tab.addEventListener('keydown', function(e){
+        var idx = i;
+        if(e.key === 'ArrowRight' || e.key === 'ArrowDown'){
+          idx = (i + 1) % tabs.length;
+        } else if(e.key === 'ArrowLeft' || e.key === 'ArrowUp'){
+          idx = (i - 1 + tabs.length) % tabs.length;
+        } else if(e.key === 'Home'){
+          idx = 0;
+        } else if(e.key === 'End'){
+          idx = tabs.length - 1;
+        } else {
+          return;
+        }
+        e.preventDefault();
+        activate(tabs[idx], true);
+      });
+    });
+
+    document.querySelectorAll('.copy').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var code = btn.parentElement.querySelector('code');
+        var text = code ? code.textContent : '';
+        var done = function(){
+          var original = btn.textContent;
+          btn.textContent = 'Copied';
+          btn.classList.add('copied');
+          setTimeout(function(){
+            btn.textContent = original;
+            btn.classList.remove('copied');
+          }, 1400);
+        };
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(text).then(done).catch(function(){
+            fallbackCopy(text); done();
+          });
+        } else {
+          fallbackCopy(text); done();
+        }
+      });
+    });
+
+    function fallbackCopy(text){
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try{ document.execCommand('copy'); }catch(e){}
+      document.body.removeChild(ta);
+    }
+  })();
+</script>
+
 </body>
 </html>
