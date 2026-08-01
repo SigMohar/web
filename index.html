@@ -341,12 +341,12 @@
 <header class="topbar" id="top">
   <a class="brand" href="#top">
     <span class="seal" aria-hidden="true"><span class="seal-mark">S</span></span>
-    <span class="brand-name">Sigmohar<span class="brand-sub">ROOT CERTIFICATE AUTHORITY</span></span>
+    <span class="brand-name">SigMohar<!--<span class="brand-sub">ROOT CERTIFICATE AUTHORITY</span>--></span>
   </a>
   <nav class="topnav" aria-label="Primary">
-    <a href="#install">Get Certificate</a>
-    <a href="roots.html">Roots</a>
-    <a href="policy.html">Policy</a>
+    <a href="#new_cert">Get New Cert</a>
+    <a href="#roots">Roots</a>
+    <a href="#policy">Policy</a>
   </nav>
 </header>
 
@@ -361,6 +361,7 @@
       <span class="fp-value">8F:2A:0C:19:6D:77:B2:44:9E:0B:5F:AC:31:D8:47:E2:59:6A:0F:B3:8C:D4:71:22:AA:60:0F:19:3B:5E:9C:07</span>
     </div>-->
   </section>
+
 
   <section id="install" class="install">
     <div class="tabs" role="tablist" aria-label="Operating system">
@@ -531,6 +532,53 @@
 
     </div>
   </section>
+
+  <!-- Get New Certificate -->
+  <section id="new_cert" class="new_cert">
+  </section>
+
+  <!-- Roots -->
+  <section id="roots" class="roots">
+    <div class="fingerprint">
+      <span class="fp-label">C1-R SHA-256 fingerprint</span>
+      <span class="fp-value">D8:0F:C7:B7:01:05:CA:0E:91:39:D3:41:E5:59:41:AF:F8:E6:E0:49:9A:8F:6C:78:7F:A9:DD:5E:EB:0A:71:87</span>
+    </div>
+    <div class="fingerprint">
+      <span class="fp-label">C2-R SHA-256 fingerprint</span>
+      <span class="fp-value">D2:12:3B:9C:94:7D:65:01:FB:A6:08:02:A8:F6:42:08:74:60:82:92:BF:1D:11:39:B0:96:0A:A6:64:EA:47:35</span>
+    </div>
+
+    <div class="fingerprint">
+      <span class="fp-label">S1-R SHA-256 fingerprint</span>
+      <span class="fp-value">2E:72:C1:8C:3C:19:E2:32:EC:0D:3B:5E:3A:B5:22:29:FB:F8:CD:61:9A:70:2D:E0:15:54:86:BA:16:59:05:49</span>
+    </div>
+    <div class="fingerprint">
+      <span class="fp-label">S2-R SHA-256 fingerprint</span>
+      <span class="fp-value">0F:35:0A:81:A4:5D:65:40:AF:DE:F9:8A:FC:61:63:B0:A1:07:6E:0F:9D:B8:93:56:E6:14:40:C7:E9:3D:25:C1</span>
+    </div>
+    <div class="fingerprint">
+      <span class="fp-label">S3-R SHA-256 fingerprint</span>
+      <span class="fp-value">60:BB:4C:BD:DA:E8:0D:07:EB:31:6F:24:45:5F:93:BD:47:D3:33:11:FB:CB:86:D5:F0:E0:F7:52:E7:F1:A2:52</span>
+    </div>
+    <div class="fingerprint">
+      <span class="fp-label">S4-R SHA-256 fingerprint</span>
+      <span class="fp-value">2B:E6:D3:D1:0E:B3:9D:7E:DC:CD:21:31:E3:9C:0A:04:79:48:77:91:3A:9B:AD:F6:0C:55:CB:94:CD:75:2E:20</span>
+    </div>
+    <div class="fingerprint">
+      <span class="fp-label">S5-R SHA-256 fingerprint</span>
+      <span class="fp-value">3D:1D:B5:F3:E3:27:CB:67:A5:60:FC:19:A0:E2:14:55:8C:7B:25:16:C8:96:EC:0B:58:4A:18:11:41:A3:B5:F8</span>
+    </div>
+
+    <div class="fingerprint">
+      <span class="fp-label">P1-R SHA-256 fingerprint</span>
+      <span class="fp-value">E1:DB:E5:46:09:7F:D9:2B:42:D4:A5:70:EA:74:B3:67:10:C5:96:35:41:E3:CC:78:0B:73:4E:05:C7:E5:A2:CA</span>
+    </div>
+  </section>
+
+  <!-- Policy -->
+  <section id="policy" class="policy">
+  </section>
+
 </main>
 
 <footer>
@@ -606,6 +654,26 @@
         }
       });
     });
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href').substring(1);
+
+        // Hide all sections first
+        document.querySelectorAll('.content').forEach(section => {
+          section.classList.add('hidden');
+        });
+
+        // Show the targeted section
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+          targetSection.classList.remove('hidden');
+        }
+      });
+    });
+
 
     function fallbackCopy(text){
       var ta = document.createElement('textarea');
