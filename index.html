@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Sigmohar Root CA — Install the certificate</title>
+<title>SigMohar Certifying Authority</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -294,7 +294,7 @@
     overflow-x:auto;
     white-space:pre;
   }
-  .copy{
+  :is(.copy, .download){
     flex:none;
     background:none;
     border:1px solid var(--line);
@@ -306,8 +306,8 @@
     cursor:pointer;
     transition:border-color .15s ease, color .15s ease;
   }
-  .copy:hover{ border-color:var(--gold); color:var(--gold); }
-  .copy:focus-visible{ outline:2px solid var(--teal); outline-offset:2px; }
+  :is(.copy, .download):hover{ border-color:var(--gold); color:var(--gold); }
+  :is(.copy, .download):focus-visible{ outline:2px solid var(--teal); outline-offset:2px; }
   .copy.copied{ border-color:var(--teal); color:var(--teal); }
 
   footer{
@@ -540,36 +540,44 @@
     <div class="fingerprint">
       <span class="fp-label">C1-R SHA-256 fingerprint</span>
       <span class="fp-value">D8:0F:C7:B7:01:05:CA:0E:91:39:D3:41:E5:59:41:AF:F8:E6:E0:49:9A:8F:6C:78:7F:A9:DD:5E:EB:0A:71:87</span>
+      <button class="download">Download</button>
     </div>
     <div class="fingerprint">
       <span class="fp-label">C2-R SHA-256 fingerprint</span>
       <span class="fp-value">D2:12:3B:9C:94:7D:65:01:FB:A6:08:02:A8:F6:42:08:74:60:82:92:BF:1D:11:39:B0:96:0A:A6:64:EA:47:35</span>
+      <button class="download">Download</button>
     </div>
 
     <div class="fingerprint">
       <span class="fp-label">S1-R SHA-256 fingerprint</span>
       <span class="fp-value">2E:72:C1:8C:3C:19:E2:32:EC:0D:3B:5E:3A:B5:22:29:FB:F8:CD:61:9A:70:2D:E0:15:54:86:BA:16:59:05:49</span>
+      <button class="download">Download</button>
     </div>
     <div class="fingerprint">
       <span class="fp-label">S2-R SHA-256 fingerprint</span>
       <span class="fp-value">0F:35:0A:81:A4:5D:65:40:AF:DE:F9:8A:FC:61:63:B0:A1:07:6E:0F:9D:B8:93:56:E6:14:40:C7:E9:3D:25:C1</span>
+      <button class="download">Download</button>
     </div>
     <div class="fingerprint">
       <span class="fp-label">S3-R SHA-256 fingerprint</span>
       <span class="fp-value">60:BB:4C:BD:DA:E8:0D:07:EB:31:6F:24:45:5F:93:BD:47:D3:33:11:FB:CB:86:D5:F0:E0:F7:52:E7:F1:A2:52</span>
+      <button class="download">Download</button>
     </div>
     <div class="fingerprint">
       <span class="fp-label">S4-R SHA-256 fingerprint</span>
       <span class="fp-value">2B:E6:D3:D1:0E:B3:9D:7E:DC:CD:21:31:E3:9C:0A:04:79:48:77:91:3A:9B:AD:F6:0C:55:CB:94:CD:75:2E:20</span>
+      <button class="download">Download</button>
     </div>
     <div class="fingerprint">
       <span class="fp-label">S5-R SHA-256 fingerprint</span>
       <span class="fp-value">3D:1D:B5:F3:E3:27:CB:67:A5:60:FC:19:A0:E2:14:55:8C:7B:25:16:C8:96:EC:0B:58:4A:18:11:41:A3:B5:F8</span>
+      <button class="download">Download</button>
     </div>
 
     <div class="fingerprint">
       <span class="fp-label">P1-R SHA-256 fingerprint</span>
       <span class="fp-value">E1:DB:E5:46:09:7F:D9:2B:42:D4:A5:70:EA:74:B3:67:10:C5:96:35:41:E3:CC:78:0B:73:4E:05:C7:E5:A2:CA</span>
+      <button class="download">Download</button>
     </div>
   </section>
 
